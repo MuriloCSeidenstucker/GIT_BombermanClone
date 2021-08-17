@@ -5,20 +5,25 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] GameObject bomb;
 
+    PlayerStatus playerStatus;
     PlayerInput playerInput;
     Rigidbody2D rb;
 
     void Start()
     {
+        playerStatus = GetComponent<PlayerStatus>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-
+        if (playerInput.GetActionInput())
+        {
+            DropBomb();
+        }
     }
 
     void FixedUpdate()
@@ -28,7 +33,12 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        Vector2 direction = playerInput.GetMovementInput() * Time.fixedDeltaTime * speed;
+        Vector2 direction = playerInput.GetMovementInput() * Time.fixedDeltaTime * playerStatus.Speed;
         rb.velocity = direction;
+    }
+
+    void DropBomb()
+    {
+        Instantiate(bomb, transform.position, transform.rotation);
     }
 }

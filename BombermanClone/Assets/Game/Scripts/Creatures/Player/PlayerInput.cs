@@ -16,4 +16,9 @@ public class PlayerInput : MonoBehaviour
         float verticalInput = Input.GetAxisRaw(PlayerInputConstants.Vertical);
         return new Vector2(horizontalInput, verticalInput);
     }
+
+    public bool GetActionInput()
+    {
+        return Input.GetKeyDown(KeyCode.J);
+    }
 }
