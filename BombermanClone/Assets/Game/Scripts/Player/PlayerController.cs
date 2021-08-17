@@ -6,20 +6,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed;
-    
+
+    PlayerInput playerInput;
     Rigidbody2D rb;
-    Vector2 direction;
-    float horizontalInput, verticalInput;
 
     void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+
     }
 
     void FixedUpdate()
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        direction = new Vector2(horizontalInput, verticalInput);
-        rb.velocity = direction * Time.fixedDeltaTime * speed;
+        Vector2 direction = playerInput.GetMovementInput() * Time.fixedDeltaTime * speed;
+        rb.velocity = direction;
     }
 }
