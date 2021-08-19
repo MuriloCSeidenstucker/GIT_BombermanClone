@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStatus))]
+[RequireComponent(typeof(PlayerSkills))]
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -10,12 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject bomb;
 
     PlayerStatus playerStatus;
+    PlayerSkills playerSkills;
     PlayerInput playerInput;
     Rigidbody2D rb;
+
+    int bombsDropped;
 
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
+        playerSkills = GetComponent<PlayerSkills>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -41,6 +46,16 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        Instantiate(bomb, transform.position, transform.rotation);
+        GameObject TEMPbomb = Instantiate(bomb, transform.position, transform.rotation);
+        print(TEMPbomb.activeInHierarchy);
+        //bombsDropped++;
+    }
+
+    bool IsSkillLimitExceeded()
+    {
+        if (bombsDropped == playerSkills.AmountBombs)
+            return true;
+
+        return false;
     }
 }

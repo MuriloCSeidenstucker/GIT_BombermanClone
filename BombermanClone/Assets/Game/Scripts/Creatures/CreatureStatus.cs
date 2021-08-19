@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CreatureStatus : MonoBehaviour
 {
-    public int Lives { get; protected set; }
-    public virtual float Speed { get; protected set; }
+    private float speed;
 
-
+    public float Speed
+    {
+        get { return speed; }
+        protected set { speed = value; }
+    }
 }
