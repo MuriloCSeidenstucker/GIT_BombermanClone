@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameObject bomb;
+    [SerializeField] GameObject bombPrefab;
 
     PlayerStatus playerStatus;
     PlayerSkills playerSkills;
     PlayerInput playerInput;
     Rigidbody2D rb;
+
+    Bomb bombScript;
 
     int bombsDropped;
 
@@ -23,13 +26,30 @@ public class PlayerController : MonoBehaviour
         playerSkills = GetComponent<PlayerSkills>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+
+        bombScript = FindObjectOfType(typeof(Bomb)) as Bomb;
+        if (bombScript != null)
+        {
+            bombScript.OnExplode += BombExploded;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (bombScript != null)
+        {
+            bombScript.OnExplode -= BombExploded;
+        }
     }
 
     void Update()
     {
         if (playerInput.GetActionInput())
         {
-            DropBomb();
+            if (!IsSkillLimitExceeded())
+            {
+                DropBomb();
+            }
         }
     }
 
@@ -46,9 +66,13 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        GameObject TEMPbomb = Instantiate(bomb, transform.position, transform.rotation);
-        print(TEMPbomb.activeInHierarchy);
-        //bombsDropped++;
+        Instantiate(bombPrefab, transform.position, transform.rotation);
+        bombsDropped++;
+    }
+
+    void BombExploded()
+    {
+        bombsDropped--;
     }
 
     bool IsSkillLimitExceeded()

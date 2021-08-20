@@ -4,16 +4,5 @@ using UnityEngine;
 
 public class PlayerSkills : MonoBehaviour
 {
-    private int amountBombs;
-
-    public int AmountBombs
-    {
-        get { return amountBombs; }
-        private set { amountBombs = value; }
-    }
-
-    void Start()
-    {
-        AmountBombs = 1;
-    }
+    public int AmountBombs { get; set; } = 1;
 }
