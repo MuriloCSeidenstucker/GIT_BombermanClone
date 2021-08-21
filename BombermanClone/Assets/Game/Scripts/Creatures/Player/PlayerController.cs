@@ -9,16 +9,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameObject bombPrefab;
+    [SerializeField] Bomb bombPrefab;
 
     PlayerStatus playerStatus;
     PlayerSkills playerSkills;
     PlayerInput playerInput;
     Rigidbody2D rb;
 
-    Bomb bombScript;
-
-    int bombsDropped;
+    [SerializeField] int bombsDropped;
 
     void Start()
     {
@@ -26,19 +24,13 @@ public class PlayerController : MonoBehaviour
         playerSkills = GetComponent<PlayerSkills>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
-
-        bombScript = FindObjectOfType(typeof(Bomb)) as Bomb;
-        if (bombScript != null)
-        {
-            bombScript.OnExplode += BombExploded;
-        }
     }
 
     private void OnDestroy()
     {
-        if (bombScript != null)
+        if (bombPrefab != null)
         {
-            bombScript.OnExplode -= BombExploded;
+            bombPrefab.OnExplode -= BombExploded;
         }
     }
 
@@ -66,7 +58,8 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        Instantiate(bombPrefab, transform.position, transform.rotation);
+        Bomb newBomb = Instantiate(bombPrefab, transform.position, transform.rotation);
+        newBomb.OnExplode += BombExploded;
         bombsDropped++;
     }
 

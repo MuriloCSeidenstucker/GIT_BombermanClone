@@ -4682,7 +4682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a6631eb951ab542a0044252bee367d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 5498037032905991980, guid: 62a73a3f65a1b8144abc04c85b0066f8, type: 3}
+  bombPrefab: {fileID: 7533874980674343352, guid: 62a73a3f65a1b8144abc04c85b0066f8, type: 3}
+  bombsDropped: 0
 --- !u!50 &236825298
 Rigidbody2D:
   serializedVersion: 4
