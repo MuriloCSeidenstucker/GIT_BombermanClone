@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     PlayerInput playerInput;
     Rigidbody2D rb;
 
-    [SerializeField] int bombsDropped;
+    int bombsDropped;
 
     void Start()
     {
@@ -24,14 +24,6 @@ public class PlayerController : MonoBehaviour
         playerSkills = GetComponent<PlayerSkills>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnDestroy()
-    {
-        if (bombPrefab != null)
-        {
-            bombPrefab.OnExplode -= BombExploded;
-        }
     }
 
     void Update()

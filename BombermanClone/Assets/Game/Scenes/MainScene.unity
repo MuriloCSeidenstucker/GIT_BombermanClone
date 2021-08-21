@@ -4683,7 +4683,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombPrefab: {fileID: 7533874980674343352, guid: 62a73a3f65a1b8144abc04c85b0066f8, type: 3}
-  bombsDropped: 0
 --- !u!50 &236825298
 Rigidbody2D:
   serializedVersion: 4
