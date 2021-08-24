@@ -5,19 +5,18 @@ using UnityEngine;
 public class CheckGridPosition : MonoBehaviour
 {
     GridLayout gridLayout;
-    Transform player;
 
-    Vector3Int cellPosition;
-    public Vector3Int CellPosition { get => cellPosition; private set => cellPosition = value; }
+    float offsetToCenter = 0.5f;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag(Tags.Player).transform;
         gridLayout = transform.parent.GetComponentInParent<GridLayout>();
     }
 
-    void FixedUpdate()
+    public Vector3 GridPosition(Transform thing)
     {
-        CellPosition = gridLayout.WorldToCell(player.position);
+        Vector3Int thingPositionInGrid = gridLayout.WorldToCell(thing.position);
+        Vector3 calculedPosition = new Vector3(thingPositionInGrid.x + offsetToCenter, thingPositionInGrid.y + offsetToCenter, thingPositionInGrid.z);
+        return calculedPosition;
     }
 }

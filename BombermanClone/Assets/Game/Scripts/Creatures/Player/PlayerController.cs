@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Bomb bombPrefab;
 
     CheckGridPosition playerPos;
+
     PlayerStatus playerStatus;
     PlayerSkills playerSkills;
     PlayerInput playerInput;
@@ -54,8 +55,7 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        Vector3 playerPosInGrid = new Vector3(playerPos.CellPosition.x + 0.5f, playerPos.CellPosition.y + 0.5f, 0.0f);
-        Bomb newBomb = Instantiate(bombPrefab, playerPosInGrid, transform.rotation);
+        Bomb newBomb = Instantiate(bombPrefab, playerPos.GridPosition(transform), transform.rotation);
         newBomb.OnExplode += BombExploded;
         bombsDropped++;
     }
