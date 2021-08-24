@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] Bomb bombPrefab;
 
+    CheckGridPosition playerPos;
     PlayerStatus playerStatus;
     PlayerSkills playerSkills;
     PlayerInput playerInput;
     Rigidbody2D rb;
 
+    // Imperfect logic. It's necessary to improve.
     int bombsDropped;
 
     void Start()
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
         playerSkills = GetComponent<PlayerSkills>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+
+        playerPos = FindObjectOfType(typeof(CheckGridPosition)) as CheckGridPosition;
     }
 
     void Update()
@@ -50,7 +54,8 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        Bomb newBomb = Instantiate(bombPrefab, transform.position, transform.rotation);
+        Vector3 playerPosInGrid = new Vector3(playerPos.CellPosition.x + 0.5f, playerPos.CellPosition.y + 0.5f, 0.0f);
+        Bomb newBomb = Instantiate(bombPrefab, playerPosInGrid, transform.rotation);
         newBomb.OnExplode += BombExploded;
         bombsDropped++;
     }
