@@ -7,7 +7,7 @@ public class Bomb : MonoBehaviour
 {
     public event Action OnExplode;
 
-    [SerializeField] ExplosionSettings explosion;
+    [SerializeField] ExplosionSettings explosionPrefab;
 
     CheckGridPosition bombPos;
     PlayerSkills playerSkill;
@@ -21,41 +21,28 @@ public class Bomb : MonoBehaviour
         bombPos = FindObjectOfType(typeof(CheckGridPosition)) as CheckGridPosition;
         playerSkill = FindObjectOfType(typeof(PlayerSkills)) as PlayerSkills;
 
-        GenerateList();
+        GeneratePositionList();
         StartCoroutine(BombSettings());
     }
 
-    private void GenerateList()
+    private void GeneratePositionList()
     {
-        explosionRange.Add(bombPos.GridPosition(transform));
+        explosionRange.Add(bombPos.PositionInGrid(transform));
 
-        for (int i = 0; i < playerSkill.FireRange*4; i++)
+        for (int i = 1; i <= playerSkill.FireRange; i++)
         {
-            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y + playerSkill.FireRange, explosionRange[0].z));
+            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y + i, explosionRange[0].z));
+            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y - i, explosionRange[0].z));
+            explosionRange.Add(new Vector3(explosionRange[0].x + i, explosionRange[0].y, explosionRange[0].z));
+            explosionRange.Add(new Vector3(explosionRange[0].x - i, explosionRange[0].y, explosionRange[0].z));
         }
-
-        if (playerSkill.FireRange == 2)
-        {
-            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y + 1, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y - 1, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y + 2, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y - 2, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x + 1, explosionRange[0].y, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x - 1, explosionRange[0].y, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x + 2, explosionRange[0].y, explosionRange[0].z));
-            explosionRange.Add(new Vector3(explosionRange[0].x - 2, explosionRange[0].y, explosionRange[0].z));
-        }
-        explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y + 1, explosionRange[0].z));
-        explosionRange.Add(new Vector3(explosionRange[0].x, explosionRange[0].y - 1, explosionRange[0].z));
-        explosionRange.Add(new Vector3(explosionRange[0].x + 1, explosionRange[0].y, explosionRange[0].z));
-        explosionRange.Add(new Vector3(explosionRange[0].x - 1, explosionRange[0].y, explosionRange[0].z));
     }
 
     void InstantiateExplosion()
     {
         for (int i = 0; i < explosionRange.Count; i++)
         {
-            Instantiate(explosion, explosionRange[i], transform.rotation);
+            Instantiate(explosionPrefab, explosionRange[i], transform.rotation);
         }
     }
 

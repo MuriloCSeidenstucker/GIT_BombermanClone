@@ -13,7 +13,7 @@ public class CheckGridPosition : MonoBehaviour
         gridLayout = transform.parent.GetComponentInParent<GridLayout>();
     }
 
-    public Vector3 GridPosition(Transform thing)
+    public Vector3 PositionInGrid(Transform thing)
     {
         Vector3Int thingPositionInGrid = gridLayout.WorldToCell(thing.position);
         Vector3 calculedPosition = new Vector3(thingPositionInGrid.x + offsetToCenter, thingPositionInGrid.y + offsetToCenter, thingPositionInGrid.z);

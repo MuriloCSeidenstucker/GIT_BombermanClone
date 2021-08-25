@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     void DropBomb()
     {
-        Bomb newBomb = Instantiate(bombPrefab, playerPos.GridPosition(transform), transform.rotation);
+        Bomb newBomb = Instantiate(bombPrefab, playerPos.PositionInGrid(transform), transform.rotation);
         newBomb.OnExplode += BombExploded;
         bombsDropped++;
     }
